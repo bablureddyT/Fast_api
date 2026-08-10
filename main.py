@@ -1,12 +1,13 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,APIRouter
 from typing import Generic, TypeVar,Optional
 from dataclasses import dataclass
 from pydantic import BaseModel
-
+from routers.userrouters import router as user_router
 app = FastAPI()
 
 from dataclasses import dataclass
 
+app.include_router(user_router)
 
 @dataclass
 class User:
@@ -23,20 +24,6 @@ class User:
 class Item:
     name:str
     age: int | None = None
-
-@app.get("/")
-def home():
-    return {"message": "Hello FastAPI"}
-
-@app.get("/items/{item_id}")
-def getItem(item_id:int):
-    item =Item(name=item_id)
-    return {"item": "empty"}
-
-@app.get("/items/{item_id}")
-def getItem(item_id:str):
-    item =Item(name=item_id)
-    return {"item": item.name}
 
 # @app.post
 
